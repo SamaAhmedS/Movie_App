@@ -1,0 +1,1 @@
+const assetsImagesPath = "assets/images/";
