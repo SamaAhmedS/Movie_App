@@ -1,0 +1,243 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:the_project/LoginPage.dart';
+
+class RegistrationPage extends StatefulWidget {
+  @override
+  _RegistrationPageState createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  final _formKey = GlobalKey<FormState>();
+  String? _name, _email, _password;
+  late String _filePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _getFilePath(); // Initialize file path when app starts
+  }
+
+  Future<void> _getFilePath() async {
+    try {
+      final directory = await getExternalStorageDirectory();
+      final assetsDirectory = Directory('${directory!.path}/registration data');
+      if (!await assetsDirectory.exists()) {
+        await assetsDirectory.create();
+      }
+      setState(() {
+        _filePath = '${assetsDirectory.path}/user_credentials.txt';
+      });
+    } catch (e) {
+      print('Failed to get file path: $e');
+    }
+  }
+
+  Future<void> _writeToFile() async {
+    try {
+      final file = File(_filePath);
+      String content = 'Name: $_name\nEmail: $_email\nPassword: $_password';
+      await file.writeAsString(content);
+      print('Data written to file: $_filePath');
+    } catch (e) {
+      print('Failed to write data to file: $e');
+    }
+  }
+
+  void _register() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      _writeToFile();
+      print('Name: $_name, Email: $_email, Password: $_password');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/cinemaSplash.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height,
+                ),
+                child: IntrinsicHeight(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Title
+                        Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.yellowAccent,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: const Offset(3.0, 3.0),
+                                blurRadius: 5.0,
+                                color: Colors.indigo.withOpacity(1),
+                              ),
+                              Shadow(
+                                offset: const Offset(-3.0, -3.0),
+                                blurRadius: 5.0,
+                                color: Colors.indigo.withOpacity(1),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+
+                        // Name Field
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            labelStyle: const TextStyle(color: Colors.yellowAccent),
+                            filled: true,
+                            fillColor: Colors.black54,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _name = value;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Email Field
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: const TextStyle(color: Colors.yellowAccent),
+                            filled: true,
+                            fillColor: Colors.black54,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your email';
+                            } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _email = value;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Password Field
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: const TextStyle(color: Colors.yellowAccent),
+                            filled: true,
+                            fillColor: Colors.black54,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            errorStyle: const TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your password';
+                            } else if (value.length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _password = value;
+                          },
+                        ),
+                        const SizedBox(height: 40),
+
+                        // Register Button
+                        ElevatedButton(
+                          onPressed: _register,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                            backgroundColor: Colors.yellowAccent,
+                          ),
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                              return LoginPage();
+                            }));
+                          },
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.yellowAccent,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
