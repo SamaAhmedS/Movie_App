@@ -1,5 +1,6 @@
 import 'classes.dart';
 String token ='';
+
 class AuthService {
   final String baseUrl = 'http://bloggy.runasp.net/api/Auth';
 
@@ -20,11 +21,13 @@ class AuthService {
 }
 class MovieService{
   final String baseUrl = '';
-  Future<bool> addBlog(Movie blog)async{
-    final url = Uri.parse('$baseUrl/movie/add');
-    final response;
-    return false;
+  Future<List<dynamic>> movieCinema(String name) async{
+    List<Cinema> cinames =[
+      Cinema(moviesName: ["Tangled","Batman"], name: 'Cinema Masr', tickets: [Ticket(price: 80.0, end: "7 pm", start: "7 AM")])
+    ];
+    return cinames;
   }
+
   Future<List<dynamic>> fetchMovies() async {
     final url = '';
     List<Movie> movies = [

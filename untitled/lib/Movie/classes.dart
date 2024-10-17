@@ -1,4 +1,17 @@
-import 'package:blog/app_consts.dart';
+
+import 'package:untitled/app_consts.dart';
+class Cinema{
+  final String name;
+  List<String> moviesName;
+  List<Ticket> tickets;
+  Cinema({required this.moviesName, required this.name, required this.tickets});
+}
+class Ticket{
+  double price;
+  //DateTime start, end;
+  String start, end;
+  Ticket({required this.price, required this.end, required this.start});
+}
 class Movie {
   final int? id;
   final String name;

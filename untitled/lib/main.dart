@@ -1,6 +1,6 @@
-import 'package:blog/Movie/movies_page.dart';
+
 import 'package:flutter/material.dart';
-import 'app_consts.dart';
+import 'package:untitled/splashPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: MoviesPage(isLoggedIn: true, isFavoritePage: false),//SignUpPage(),
+      home: Splashpage(),
+      //home: MoviesPage(isLoggedIn: true, isFavoritePage: false),//SignUpPage(),
       //home: MoviesPage(isLoggedIn: true, isFavoritePage: true),
 
     );
