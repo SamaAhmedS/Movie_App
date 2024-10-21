@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
           content: Text('Login Successful!'),
         ));
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-          return MoviesPage(isLoggedIn: true, isFavoritePage: false);
+          return BottomNavContainer();
         }));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
