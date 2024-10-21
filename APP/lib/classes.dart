@@ -39,7 +39,8 @@ class Movie {
       id: json['id'],
       name: json['title'],
       description: json['content'],
-      img: json['img'] ?? '${assetsImagesPath}img.png', // Handle possible null
+      //img: json['img'] ?? '${assetsImagesPath}img.png', // Handle possible null
+      img: '${assetsImagesPath}img.png', // Handle possible null
       categoryName: json['category'],
       comments: comments,
     );
