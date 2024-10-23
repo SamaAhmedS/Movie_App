@@ -1,4 +1,40 @@
 import 'app_consts.dart';
+class User {
+  int id;
+  String? image;
+  String name;
+  String email;
+  String password;
+  String? token;
+
+  User({
+    required this.id,
+    this.image,
+    required this.name,
+    required this.email,
+    required this.password,
+    this.token
+  });
+}
+
+User getUser() {
+  return User(
+    id: 1,
+    image: 'https://example.com/image1.jpg',
+    name: 'Alice Johnson',
+    email: '123 Elm Street, Springfield',
+    password: "kg5322d6g",
+  );
+}
+
+extension StringsExt on String {
+  String get initials {
+    List<String> words = trim().split(' ');
+    if (words.isEmpty) return '';
+    String initials = words.map((word) => word[0].toUpperCase()).join('.');
+    return initials;
+  }
+}
 class Cinema{
   final String name;
   List<String> moviesName;
