@@ -36,25 +36,31 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Future<bool> _checkUserCredentials(String name,String phone, String email) async {
     try {
       final file = File(_filePath);
-      String content = await file.readAsString();
-      List<String> lines = content.split('\n');
+      if (await file.exists()) {
+        final contents = await file.readAsString();
+        List<String> userBlocks = contents.split('---');
 
-      String? storedName;
-      String? storedPhone;
-      String? storedEmail;
+        for (var block in userBlocks) {
+          String? storedName;
+          String? storedPhone;
+          String? storedEmail;
+          List<String> lines = block.trim().split('\n');
 
-      for (var line in lines) {
-        if (line.startsWith('Name:')) {
-          storedName = line.substring(6).trim();
-        } else if (line.startsWith('Email:')) {
-          storedEmail = line.substring(7).trim();
-        }else if (line.startsWith('Phone Number:')) {
-          storedPhone = line.substring(14).trim();
+          for (var line in lines) {
+            if (line.startsWith('Name:')) {
+              storedName = line.substring(6).trim();
+            } else if (line.startsWith('Email:')) {
+              storedEmail = line.substring(7).trim();
+            } else if (line.startsWith('Phone Number:')) {
+              storedPhone = line.substring(14).trim();
+            }
+          }
+
+          if (storedName == name && storedEmail == email &&
+              storedPhone == phone) {
+            return true;
+          }
         }
-      }
-
-      if (storedName == name && storedEmail == email && storedPhone == phone) {
-        return true;
       }
     } catch (e) {
       print('Failed to read user credentials: $e');
