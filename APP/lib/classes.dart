@@ -5,7 +5,7 @@ class User {
   String name;
   String email;
   String password;
-  String? token;
+  String phone;
 
   User({
     required this.id,
@@ -13,18 +13,8 @@ class User {
     required this.name,
     required this.email,
     required this.password,
-    this.token
+    required this.phone
   });
-}
-
-User getUser() {
-  return User(
-    id: 1,
-    image: 'https://example.com/image1.jpg',
-    name: 'Alice Johnson',
-    email: '123 Elm Street, Springfield',
-    password: "kg5322d6g",
-  );
 }
 
 extension StringsExt on String {

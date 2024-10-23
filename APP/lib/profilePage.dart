@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'classes.dart';
+import 'services.dart';
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User user = getUser();
+    User user = Auth.instance.getUser();
+    //User user = getUser();
 
     return Scaffold(
       appBar: AppBar(
@@ -39,15 +41,15 @@ class ProfilePage extends StatelessWidget {
             title: Text('Password'),
             subtitle: Text(user.password),
           ),
-          ListTile(
+          /*ListTile(
             leading: Icon(Icons.security, color: Colors.deepPurple),
             title: Text('Token'),
             subtitle: Text(user.token ?? 'N/A'),
-          ),
+          ),*/
           ListTile(
-            leading: Icon(Icons.person, color: Colors.deepPurple),
-            title: Text('ID'),
-            subtitle: Text(user.id.toString()),
+            leading: Icon(Icons.phone, color: Colors.deepPurple),
+            title: Text('Phone'),
+            subtitle: Text(user.phone),
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'moviesInCinema.dart';
 import 'favoriteMovies.dart';
 import 'profilePage.dart';
+import 'loginPage.dart'; // Import the LoginPage
 
 class BottomNavContainer extends StatefulWidget {
   final int selectedPage;
@@ -29,27 +30,26 @@ class _BottomNavContainerState extends State<BottomNavContainer> {
       _selectedIndex = index;
     });
 
-    Widget page;
-    switch (index) {
-      case 0:
-        page = MoviesInCinema();
-        break;
-      case 1:
-        page = FavoriteMovies();
-        break;
-      case 2:
-        page = ProfilePage();
-        break;
-      default:
-        page = MoviesInCinema();
+    // If "Logout" is tapped (we'll use index 3 for logout)
+    if (index == 3) {
+      _logout(); // Handle logout
+    } else {
+      // Navigate to the selected page and keep bottom nav bar
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavContainer(selectedPage: index),
+        ),
+      );
     }
+  }
 
-    // Navigate to the selected page and keep bottom nav bar
-    Navigator.pushReplacement(
+  // Method to handle logout and navigate to LoginPage without BottomNavigationBar
+  void _logout() {
+    Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (context) => BottomNavContainer(selectedPage: index),
-      ),
+      MaterialPageRoute(builder: (context) => LoginPage()), // Navigate to LoginPage
+          (Route<dynamic> route) => false, // Remove all previous routes
     );
   }
 
@@ -71,8 +71,11 @@ class _BottomNavContainerState extends State<BottomNavContainer> {
           icon: Icon(Icons.person),
           label: 'Profile',
         ),
-      ]
-      ,
+        BottomNavigationBarItem( // Add Logout Icon
+          icon: Icon(Icons.logout),
+          label: 'Logout',
+        ),
+      ],
     );
   }
 
@@ -86,7 +89,7 @@ class _BottomNavContainerState extends State<BottomNavContainer> {
       case 1:
         selectedPage = FavoriteMovies();
         break;
-    case 2:
+      case 2:
         selectedPage = ProfilePage();
         break;
       default:
@@ -99,5 +102,3 @@ class _BottomNavContainerState extends State<BottomNavContainer> {
     );
   }
 }
-
-

@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:the_project/ForgotPasswordPage.dart';
+import 'package:the_project/classes.dart';
 import 'RegistrationPage.dart';
 import 'bottom_nav_container.dart';
+import 'services.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -45,7 +47,8 @@ class _LoginPageState extends State<LoginPage> {
         List<String> userBlocks = contents.split('---'); // Split based on user blocks
 
         for (var block in userBlocks) {
-          String? savedEmail, savedPassword;
+       //String newUser = 'Name: $_name\nEmail: $_email\nPassword: $_password\nPhone Number: $_phone\n---\n';
+          String? savedEmail, savedPassword, name, number;
           List<String> lines = block.trim().split('\n'); // Split block into lines
 
           for (var line in lines) {
@@ -53,11 +56,16 @@ class _LoginPageState extends State<LoginPage> {
               savedEmail = line.replaceFirst('Email: ', '').trim();
             } else if (line.startsWith('Password:')) {
               savedPassword = line.replaceFirst('Password: ', '').trim();
+            } else if (line.startsWith('Phone Number:')) {
+              number = line.replaceFirst('Phone Number: ', '').trim();
+            } else if (line.startsWith('Name:')) {
+              name = line.replaceFirst('Name: ', '').trim();
             }
           }
 
           // Check if this block's email and password match the user input
           if (savedEmail == email && savedPassword == password) {
+            Auth.instance.saveLoggedInUser(User(id: 1, name: name!, email: email, password: password, phone: number!));
             return true;
           }
         }

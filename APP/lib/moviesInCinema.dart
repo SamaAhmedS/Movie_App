@@ -59,10 +59,6 @@ class _MoviesInCinemaState extends State<MoviesInCinema> {
       internal(movie);
     });
   }
-  /*void flipIsFavorite(Movie movie) async {
-    MovieService1.instance.flipIsFavorite(movie.name);
-    refreshMovies();
-  }*/
 
   void searchMovies(String query) {
     setState(() {

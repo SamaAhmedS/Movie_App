@@ -1,19 +1,6 @@
 import 'app_consts.dart';
 import 'classes.dart';
-String token ='';
 
-class AuthService {
-  Future<void> loginUser(String email, String password) async {
-
-    // Future<http.Response>
-    // return response;
-  }
-
-  Future<void> logoutUser() async {
-
-  }
-
-}
 class Auth {
 
   Auth._privateConstructor();
@@ -23,7 +10,7 @@ class Auth {
 
   // Getter for the instance
   static Auth get instance => _instance;
-  User user = User(id: 0, name: 'User', email: 'user1@gmail.com', password: '123456789');
+  User user = User(id: 0, name: 'User', email: 'user1@gmail.com', password: '123456789', phone: '123456789');
   void saveLoggedInUser(User u){
     user = u;
   }
