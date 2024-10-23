@@ -16,7 +16,6 @@ class _FavoriteMoviesState extends State<FavoriteMovies> {
   List<Cinema> cinemas = [];
   List<Movie> filteredMovies = [];
   TextEditingController searchController = TextEditingController();
-  final MovieService movieServices = MovieService();
 
 
 
@@ -31,34 +30,30 @@ class _FavoriteMoviesState extends State<FavoriteMovies> {
     });
   }
   Future<void> fetchAndExtractCinemas(String name) async {
-    var response = await MovieService1.instance.movieCinema(name);
+    var response = await MovieService.instance.movieCinema(name);
     cinemas = response as List<Cinema>;
   }
 
 
   Future<List<Movie>> fetchAndExtractMovies() async {
-    var response = await MovieService1.instance.fetchFavoriteMovies();
+    var response = await MovieService.instance.fetchFavoriteMovies();
     var res = response as List<Movie>;
-    print("we are in new page fav");
-    for(Movie m in res ){
-      print("${m.name} f ${m.isFavorite}");
-    }
     return res;
   }
 
   void refreshMovies() {
     setState(() {
       movies = fetchAndExtractMovies();
+      movies.then((moviesList) {
+        setState(() {
+          filteredMovies = moviesList;
+        });
+      });
     });
-  }
-  void internal(Movie movie) async {
-    MovieService1.instance.flipIsFavorite(movie.name);
-    refreshMovies();
   }
   void flipIsFavorite(Movie movie){
-    setState(() {
-      internal(movie);
-    });
+    MovieService.instance.flipIsFavorite(movie.name);
+    setState(() {refreshMovies();});
   }
 
   void searchMovies(String query) {

@@ -28,13 +28,13 @@ class _MoviesInCinemaState extends State<MoviesInCinema> {
     });
   }
   Future<void> fetchAndExtractCinemas(String name) async {
-    var response = await MovieService1.instance.movieCinema(name);
+    var response = await MovieService.instance.movieCinema(name);
     cinemas = response as List<Cinema>;
   }
 
 
   Future<List<Movie>> fetchAndExtractMovies() async {
-    var response = await MovieService1.instance.fetchMovies();
+    var response = await MovieService.instance.fetchMovies();
 
     var res = response as List<Movie>;
     print("we are in new page mov");
@@ -51,7 +51,7 @@ class _MoviesInCinemaState extends State<MoviesInCinema> {
   }
 
   void internal(Movie movie) async {
-    MovieService1.instance.flipIsFavorite(movie.name);
+    MovieService.instance.flipIsFavorite(movie.name);
     refreshMovies();
   }
   void flipIsFavorite(Movie movie){
