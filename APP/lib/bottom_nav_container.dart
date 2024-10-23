@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'moviesInCinema.dart';
 import 'favoriteMovies.dart';
 import 'profilePage.dart';
-import 'loginPage.dart'; // Import the LoginPage
+import 'loginPage.dart';
 
 class BottomNavContainer extends StatefulWidget {
   final int selectedPage;
@@ -56,6 +56,10 @@ class _BottomNavContainerState extends State<BottomNavContainer> {
   // Method to return the persistent bottom navigation bar
   BottomNavigationBar buildBottomNavBar() {
     return BottomNavigationBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
       currentIndex: _selectedIndex,
       onTap: _onItemTapped,
       items: const <BottomNavigationBarItem>[

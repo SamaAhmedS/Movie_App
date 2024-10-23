@@ -10,12 +10,14 @@ class Auth {
 
   // Getter for the instance
   static Auth get instance => _instance;
-  User user = User(id: 0, name: 'User', email: 'user1@gmail.com', password: '123456789', phone: '123456789');
+  User? user;
   void saveLoggedInUser(User u){
     user = u;
   }
   User getUser(){
-    return user;
+    if(user != null) print(user!.name);
+    return (user == null ? User(id: 0, name: 'User', email: 'user1@gmail.com', password: '123456789', phone: '123456789')
+            :user!);
   }
 
 }
